@@ -6,9 +6,16 @@ const usuariosRoutes = require('./routes/usuarios');
 const citasRoutes = require('./routes/citas');
 const clientesRoutes = require('./routes/clientes');
 
+const corsOptions = {
+  origin: 'https://llesdental.cendcap.com',
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true
+};
+
 
 const app = express();
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(bodyParser.json());
 
 app.use('/api/usuarios', usuariosRoutes);
