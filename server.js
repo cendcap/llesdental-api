@@ -15,7 +15,7 @@ app.use('/api/usuarios', usuariosRoutes);
 app.use('/api/citas', citasRoutes);
 app.use('/api/clientes', clientesRoutes);
 
-const PORT = process.env.PORT || 3000;
+const PORT = Number(process.env.PORT) || 3000;
 app.listen(PORT, () => {
   console.log(`🚀 Servidor backend corriendo en http://localhost:${PORT}`);
 });
