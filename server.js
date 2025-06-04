@@ -7,7 +7,7 @@ const citasRoutes = require('./routes/citas');
 const clientesRoutes = require('./routes/clientes');
 
 const corsOptions = {
-  origin: 'https://llesdental.cendcap.com',
+  origin: ['http://localhost:4200','https://llesdental.cendcap.com',],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true
