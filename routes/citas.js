@@ -51,7 +51,7 @@ router.post('/nueva', async (req, res) => {
 router.get('/todas', async (req, res) => {
   try {
     const [rows] = await db.query(`
-      SELECT c.fecha, c.hora, c.estado, cl.nombre 
+      SELECT c.id, c.fecha, c.hora, c.estado, cl.nombre 
       FROM citas c 
       JOIN clientes cl ON c.cliente_id = cl.id
     `);
