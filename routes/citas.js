@@ -63,7 +63,7 @@ router.get('/todas', async (req, res) => {
 });
 
 // Listar todas las citas ordenadas
-router.get('/listar', async (req, res) => {
+router.get('/citas', async (req, res) => {
   try {
     const [results] = await db.query(`
       SELECT c.id, c.fecha, c.hora, c.estado, cl.id AS cliente_id, cl.nombre
