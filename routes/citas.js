@@ -108,6 +108,32 @@ router.get('/horas-no-disponibles', async (req, res) => {
   }
 });
 
+// Actualizar el estado de una cita
+router.put('/citas/:id', async (req, res) => {
+  const { id } = req.params;
+  const { estado } = req.body;
+
+  // Validación básica
+  if (!['reservado', 'atendiendo', 'atendido'].includes(estado)) {
+    return res.status(400).json({ mensaje: 'Estado inválido' });
+  }
+
+  try {
+    const [resultado] = await db.query(
+      'UPDATE citas SET estado = ? WHERE id = ?',
+      [estado, id]
+    );
+
+    if (resultado.affectedRows === 0) {
+      return res.status(404).json({ mensaje: 'Cita no encontrada' });
+    }
+
+    res.json({ mensaje: 'Estado actualizado correctamente' });
+  } catch (error) {
+    console.error('Error al actualizar estado de cita:', error);
+    res.status(500).json({ mensaje: 'Error del servidor' });
+  }
+});
 
 
 module.exports = router;
