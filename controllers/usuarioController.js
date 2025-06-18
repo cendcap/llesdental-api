@@ -136,3 +136,38 @@ exports.registrarUsuario = async (req, res) => {
     if (connection) await connection.release();
   }
 };
+
+// 🛠️ REGISTRAR ADMINISTRADOR SIN CLIENTE
+exports.crearAdministrador = async (req, res) => {
+  const { nombre_usuario, password } = req.body;
+
+  if (!nombre_usuario || !password) {
+    return res.status(400).json({ message: 'Usuario y contraseña son obligatorios' });
+  }
+
+  try {
+    const [existing] = await db.query(
+      'SELECT * FROM usuarios WHERE nombre_usuario = ?',
+      [nombre_usuario]
+    );
+
+    if (existing.length > 0) {
+      return res.status(400).json({ message: 'El usuario ya existe' });
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const [result] = await db.query(
+      'INSERT INTO usuarios (nombre_usuario, contrasena, rol) VALUES (?, ?, ?)',
+      [nombre_usuario, hashedPassword, 'admin']
+    );
+
+    res.status(201).json({
+      message: 'Administrador creado correctamente',
+      id_usuario: result.insertId
+    });
+  } catch (err) {
+    console.error('❌ Error al crear administrador:', err);
+    res.status(500).json({ message: 'Error interno del servidor' });
+  }
+};
